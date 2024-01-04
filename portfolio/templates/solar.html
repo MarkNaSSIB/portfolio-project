@@ -1,0 +1,536 @@
+<head>
+    <!--
+     Solar System
+     by Mark Boutros
+     Size, Distance, and speeds of planets are to scale
+     8/19/18
+ -->
+
+    <style>
+        .planetToggle {
+            padding: 10px;
+        }
+    </style>
+
+</head>
+
+{% extends "master.html" %}
+
+{% block title %}Mark's Projects{% endblock %}
+
+{% block content %}
+
+<html>
+<div class="d-flex justify-content-center">
+    <div>
+        <div class="container-fluid">
+            <canvas id="gamecanvas" width="1900" height="900"></canvas>
+        </div>
+
+        <div class="d-flex">
+            <button class="planetToggle" onclick="mercuryRelativeSpeed()">Mercury</button>
+            <button class="planetToggle" onclick="venusRelativeSpeed()">Venus</button>
+            <button class="planetToggle" onclick="earthRelativeSpeed()">Earth</button>
+            <button class="planetToggle" onclick="marsRelativeSpeed()">Mars</button>
+            <button class="planetToggle" onclick="jupiterRelativeSpeed()">Jupiter</button>
+            <button class="planetToggle" onclick="saturnRelativeSpeed()">Saturn</button>
+            <button class="planetToggle" onclick="uranusRelativeSpeed()">Uranus</button>
+            <button class="planetToggle" onclick="neptuneRelativeSpeed()">Neptune</button>
+            <button class="planetToggle" onclick="plutoRelativeSpeed()">Pluto</button>
+
+            <input type="range" min="1" max="100" value="20" class="slider" id="speedSlider">
+
+
+        </div>
+
+    </div>
+
+
+</div>
+
+<script>
+    var canvas;
+    var canvasContext;
+    var mercuryY, venusY, earthY, marsY, jupiterY, saturnY, uranusY, neptuneY, plutoY;
+    var mercuryDY, venusDY, earthDY, marsDY, jupiterDY, saturnDY, uranusDY, neptuneDY, plutoDY;
+    var astBelt = [], kuiperBelt = [];
+    var beltDY;
+
+    var slider = document.getElementById("speedSlider");
+    var gameSpeed = slider.value;
+
+    window.onload = function () {
+        canvas = document.getElementById('gamecanvas');
+        canvasContext = canvas.getContext('2d');
+
+        slider.oninput = updateSpeed();
+
+        mercuryY = canvas.height / 2;
+        mercuryDY = 47.9 / gameSpeed;
+
+        venusY = canvas.height / 2;
+        venusDY = 35.0 / gameSpeed;
+
+        earthY = canvas.height / 2;
+        earthDY = 29.8 / gameSpeed;
+
+        marsY = canvas.height / 2;
+        marsDY = 24.1 / gameSpeed;
+
+        jupiterY = canvas.height / 2;
+        jupiterDY = 13.0 / gameSpeed;
+
+        saturnY = canvas.height / 2;
+        saturnDY = 9.7 / gameSpeed;
+
+        uranusY = canvas.height / 2;
+        uranusDY = 6.8 / gameSpeed;
+
+        neptuneY = canvas.height / 2;
+        neptuneDY = 5.4 / gameSpeed;
+
+        plutoY = canvas.height / 2;
+        plutoDY = 4.7 / gameSpeed;
+        beltDY = 16.0 / gameSpeed;
+
+        for (var j = 0; j < 300; j++) {  //astroid belt center
+            var tempX = Math.random() * 30 + 140;
+            var tempY = Math.random() * 900;
+            astBelt.push({ x: tempX, y: tempY });
+        }
+        for (var j = 0; j < 200; j++) { //astroid belt bounds
+            var tempX = Math.random() * 70 + 120;
+            var tempY = Math.random() * 900;
+            astBelt.push({ x: tempX, y: tempY });
+        }
+
+
+        for (var j = 0; j < 1000; j++) { //kuiper belt center
+            var tempX = Math.random() * 200 + 1600;
+            var tempY = Math.random() * 900;
+            kuiperBelt.push({ x: tempX, y: tempY });
+        }
+        for (var j = 0; j < 1000; j++) { //kuiper belt bounds
+            var tempX = Math.random() * 400 + 1500;
+            var tempY = Math.random() * 900;
+            kuiperBelt.push({ x: tempX, y: tempY });
+        }
+
+
+        setInterval(function () {
+            draw();
+            move();
+
+        }, 1000 / 60);
+    }
+
+    function draw() {
+
+        drawRect(0, 0, canvas.width, canvas.height, 'black'); //background
+
+        drawBall(-1980, canvas.height / 2, 2000, '#FFFF00'); //sun
+
+        drawBall(40, mercuryY, 2.5, '#B0A180'); //draw mercury
+
+        drawBall(57, venusY, 6, '#FAF36F'); //draw venus
+
+        drawBall(80, earthY, 6.5, '#9AFFFC'); //draw earth
+
+        drawBall(97, marsY, 3.5, '#810000'); //draw mars
+
+        for (var i = 0; i < astBelt.length; i++) {  //draw astroid belt
+            drawBall(astBelt[i].x, astBelt[i].y, .5, '#998C66');
+        }
+
+        drawBall(280, jupiterY, 71.5, '#EAA600'); //draw jupiter
+
+        drawBall(500, saturnY, 62.5, '#EEE020'); //draw saturn
+
+        drawBall(960, uranusY, 25.5, '#00DDCB'); //draw uranus
+
+        for (var i = 0; i < kuiperBelt.length; i++) {  //draw kuiper belt
+            drawBall(kuiperBelt[i].x, kuiperBelt[i].y, .5, '#998C66');
+        }
+
+        drawBall(1500, neptuneY, 25, '#00CCBB'); //draw neptune
+
+        drawBall(1880, plutoY, 1, '#998C66'); //draw pluto
+
+    }
+
+    function move() {
+        mercuryY += mercuryDY;  //move mercury
+        if (mercuryY > 902) {
+            mercuryY = -2;
+        }
+        if (mercuryY < -2) {
+            mercuryY = 902
+        }
+
+        venusY += venusDY;  //move venus
+        if (venusY > 906) {
+            venusY = -6;
+        }
+        if (venusY < -6) {
+            venusY = 906;
+        }
+
+        earthY += earthDY;  //move earth
+        if (earthY > 906) {
+            earthY = -6;
+        }
+        if (earthY < -6) {
+            earthY = 906;
+        }
+
+        marsY += marsDY;  //move mars
+        if (marsY > 904) {
+            marsY = -4;
+        }
+        if (marsY < -4) {
+            marsY = 904;
+        }
+
+        jupiterY += jupiterDY;  //move jupiter
+        if (jupiterY > 972) {
+            jupiterY = -72;
+        }
+        if (jupiterY < -72) {
+            jupiterY = 972;
+        }
+
+        saturnY += saturnDY;  //move saturn
+        if (saturnY > 963) {
+            saturnY = -63;
+        }
+        if (saturnY < -63) {
+            saturnY = 963;
+        }
+
+        uranusY += uranusDY;  //move uranus
+        if (uranusY > 926) {
+            uranusY = -26;
+        }
+        if (uranusY < -26) {
+            uranusY = 926;
+        }
+
+        neptuneY += neptuneDY;  //move neptune
+        if (neptuneY > 926) {
+            neptuneY = -26;
+        }
+        if (neptuneY < -26) {
+            neptuneY = 926;
+        }
+
+        plutoY += plutoDY;  //move pluto
+        if (plutoY > 901) {
+            plutoY = -1;
+        }
+        if (plutoY < -1) {
+            plutoY = 901;
+        }
+
+        for (var i = 0; i < astBelt.length; i++) { //move astroid belt
+            astBelt[i].y += beltDY;
+            if (astBelt[i].y > 900) { astBelt[i].y = 0; }
+            if (astBelt[i].y < 0) { astBelt[i].y = 900; }
+        }
+
+        for (var i = 0; i < kuiperBelt.length; i++) {  //move kuiper belt
+            kuiperBelt[i].y += beltDY / 3;
+            if (kuiperBelt[i].y > 900) { kuiperBelt[i].y = 0; }
+            if (kuiperBelt[i].y < 0) { kuiperBelt[i].y = 900; }
+        }
+    }
+
+    function drawBall(x, y, r, color) {
+        canvasContext.fillStyle = color;
+        canvasContext.beginPath();
+        canvasContext.arc(x, y, r, 0, Math.PI * 2, true);
+        canvasContext.fill();
+    }
+    function drawRect(x, y, w, h, color) {
+        canvasContext.fillStyle = color;
+        canvasContext.fillRect(x, y, w, h);
+    }
+
+    function mercuryRelativeSpeed() {
+
+        if (mercuryDY != 0) {
+            earthDY -= mercuryDY;
+            venusDY -= mercuryDY;
+            marsDY -= mercuryDY;
+            jupiterDY -= mercuryDY;
+            saturnDY -= mercuryDY;
+            uranusDY -= mercuryDY;
+            neptuneDY -= mercuryDY;
+            plutoDY -= mercuryDY;
+            beltDY -= mercuryDY;
+            mercuryDY = 0;
+        } else {
+            mercuryDY = 47.9 / gameSpeed;
+            earthDY += mercuryDY;
+            venusDY += mercuryDY;
+            marsDY += mercuryDY;
+            jupiterDY += mercuryDY;
+            saturnDY += mercuryDY;
+            uranusDY += mercuryDY;
+            neptuneDY += mercuryDY;
+            plutoDY += mercuryDY;
+            beltDY += mercuryDY;
+        }
+
+    }
+
+    function venusRelativeSpeed() {
+
+        if (venusDY != 0) {
+            mercuryDY -= venusDY;
+            earthDY -= venusDY;
+            marsDY -= venusDY;
+            jupiterDY -= venusDY;
+            saturnDY -= venusDY;
+            uranusDY -= venusDY;
+            neptuneDY -= venusDY;
+            plutoDY -= venusDY;
+            beltDY -= venusDY;
+            venusDY = 0;
+        } else {
+            venusDY = 35.0 / gameSpeed;
+            mercuryDY += venusDY;
+            earthDY += venusDY;
+            marsDY += venusDY;
+            jupiterDY += venusDY;
+            saturnDY += venusDY;
+            uranusDY += venusDY;
+            neptuneDY += venusDY;
+            plutoDY += venusDY;
+            beltDY += venusDY;
+        }
+
+    }
+
+    function earthRelativeSpeed() {
+
+        if (earthDY != 0) {
+            mercuryDY -= earthDY;
+            venusDY -= earthDY;
+            marsDY -= earthDY;
+            jupiterDY -= earthDY;
+            saturnDY -= earthDY;
+            uranusDY -= earthDY;
+            neptuneDY -= earthDY;
+            plutoDY -= earthDY;
+            beltDY -= earthDY;
+            earthDY = 0;
+        } else {
+            earthDY = 29.8 / gameSpeed;
+            mercuryDY += earthDY;
+            venusDY += earthDY;
+            marsDY += earthDY;
+            jupiterDY += earthDY;
+            saturnDY += earthDY;
+            uranusDY += earthDY;
+            neptuneDY += earthDY;
+            plutoDY += earthDY;
+            beltDY += earthDY;
+        }
+
+    }
+
+    function marsRelativeSpeed() {
+
+        if (marsDY != 0) {
+            mercuryDY -= marsDY;
+            venusDY -= marsDY;
+            earthDY -= marsDY;
+            jupiterDY -= marsDY;
+            saturnDY -= marsDY;
+            uranusDY -= marsDY;
+            neptuneDY -= marsDY;
+            plutoDY -= marsDY;
+            beltDY -= marsDY;
+            marsDY = 0;
+        } else {
+            marsDY = 24.1 / gameSpeed;
+            mercuryDY += marsDY;
+            venusDY += marsDY;
+            earthDY += marsDY;
+            jupiterDY += marsDY;
+            saturnDY += marsDY;
+            uranusDY += marsDY;
+            neptuneDY += marsDY;
+            plutoDY += marsDY;
+            beltDY += marsDY;
+        }
+
+    }
+    function jupiterRelativeSpeed() {
+
+        if (jupiterDY != 0) {
+            mercuryDY -= jupiterDY;
+            venusDY -= jupiterDY;
+            marsDY -= jupiterDY;
+            earthDY -= jupiterDY;
+            saturnDY -= jupiterDY;
+            uranusDY -= jupiterDY;
+            neptuneDY -= jupiterDY;
+            plutoDY -= jupiterDY;
+            beltDY -= jupiterDY;
+            jupiterDY = 0;
+        } else {
+            earthDY = 13.0 / gameSpeed;
+            mercuryDY += jupiterDY;
+            venusDY += jupiterDY;
+            marsDY += jupiterDY;
+            earthDY += jupiterDY;
+            saturnDY += jupiterDY;
+            uranusDY += jupiterDY;
+            neptuneDY += jupiterDY;
+            plutoDY += jupiterDY;
+            beltDY += jupiterDY;
+        }
+
+    }
+
+    function saturnRelativeSpeed() {
+
+        if (saturnDY != 0) {
+            mercuryDY -= saturnDY;
+            venusDY -= saturnDY;
+            marsDY -= saturnDY;
+            jupiterDY -= saturnDY;
+            earthDY -= saturnDY;
+            uranusDY -= saturnDY;
+            neptuneDY -= saturnDY;
+            plutoDY -= saturnDY;
+            beltDY -= saturnDY;
+            saturnDY = 0;
+        } else {
+            saturnDY = 9.7 / gameSpeed;
+            mercuryDY += saturnDY;
+            venusDY += saturnDY;
+            marsDY += saturnDY;
+            jupiterDY += saturnDY;
+            earthDY += saturnDY;
+            uranusDY += saturnDY;
+            neptuneDY += saturnDY;
+            plutoDY += saturnDY;
+            beltDY += saturnDY;
+        }
+
+    }
+
+    function uranusRelativeSpeed() {
+
+        if (uranusDY != 0) {
+            mercuryDY -= uranusDY;
+            venusDY -= uranusDY;
+            marsDY -= uranusDY;
+            jupiterDY -= uranusDY;
+            saturnDY -= uranusDY;
+            earthDY -= uranusDY;
+            neptuneDY -= uranusDY;
+            plutoDY -= uranusDY;
+            beltDY -= uranusDY;
+            uranusDY = 0;
+        } else {
+            uranusDY = 6.8 / gameSpeed;
+            mercuryDY += uranusDY;
+            venusDY += uranusDY;
+            marsDY += uranusDY;
+            jupiterDY += uranusDY;
+            saturnDY += uranusDY;
+            earthDY += uranusDY;
+            neptuneDY += uranusDY;
+            plutoDY += uranusDY;
+            beltDY += uranusDY;
+        }
+
+    }
+
+    function neptuneRelativeSpeed() {
+
+        if (neptuneDY != 0) {
+            mercuryDY -= neptuneDY;
+            venusDY -= neptuneDY;
+            marsDY -= neptuneDY;
+            jupiterDY -= neptuneDY;
+            saturnDY -= neptuneDY;
+            uranusDY -= neptuneDY;
+            earthDY -= neptuneDY;
+            plutoDY -= neptuneDY;
+            beltDY -= neptuneDY;
+            neptuneDY = 0;
+        } else {
+            neptuneDY = 5.4 / gameSpeed;
+            mercuryDY += neptuneDY;
+            venusDY += neptuneDY;
+            marsDY += neptuneDY;
+            jupiterDY += neptuneDY;
+            saturnDY += neptuneDY;
+            uranusDY += neptuneDY;
+            earthDY += neptuneDY;
+            plutoDY += neptuneDY;
+            beltDY += neptuneDY;
+        }
+
+    }
+
+    function plutoRelativeSpeed() {
+
+        if (plutoDY != 0) {
+            mercuryDY -= plutoDY;
+            venusDY -= plutoDY;
+            marsDY -= plutoDY;
+            jupiterDY -= plutoDY;
+            saturnDY -= plutoDY;
+            uranusDY -= plutoDY;
+            neptuneDY -= plutoDY;
+            earthDY -= plutoDY;
+            beltDY -= plutoDY;
+            plutoDY = 0;
+        } else {
+            plutoDY = 4.7 / gameSpeed;
+            mercuryDY += plutoDY;
+            venusDY += plutoDY;
+            marsDY += plutoDY;
+            jupiterDY += plutoDY;
+            saturnDY += plutoDY;
+            uranusDY += plutoDY;
+            neptuneDY += plutoDY;
+            earthDY += plutoDY;
+            beltDY += plutoDY;
+        }
+
+    }
+
+    function updateSpeed() { // not working 
+        gameSpeed = slider.value;
+
+        mercuryDY = 47.9 / gameSpeed;
+
+        venusDY = 35.0 / gameSpeed;
+
+        earthDY = 29.8 / gameSpeed;
+
+        marsDY = 24.1 / gameSpeed;
+
+        jupiterDY = 13.0 / gameSpeed;
+
+        saturnDY = 9.7 / gameSpeed;
+
+        uranusDY = 6.8 / gameSpeed;
+
+        neptuneDY = 5.4 / gameSpeed;
+
+        plutoDY = 4.7 / gameSpeed;
+
+        beltDY = 16.0 / gameSpeed;
+    }
+</script>
+
+</html>
+
+{% endblock %}

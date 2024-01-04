@@ -1,0 +1,170 @@
+<head>
+    <!--
+        Snek
+        by: mark boutros
+        8/15/18
+    -->
+</head>
+
+{% extends "master.html" %}
+
+{% block title %}Mark's Projects{% endblock %}
+
+{% block content %}
+
+<html>
+
+<div class="d-flex justify-content-center">
+    <canvas id="gamecanvas" width="420" height="420"></canvas>
+</div>
+
+<script>
+
+    var dx = 10, dy = 0;
+    var apple = { x: 210, y: 210 };
+    var snek = { x: 200, y: 200, tail: 3 };
+    var body = [];
+    var splashScreen = true;
+    var collisionTimer = 0;
+    var collisionBool = false;
+    var eatTimer = 0;
+    var eatBool = false;
+
+    window.onload = function () {
+        canvas = document.getElementById('gamecanvas');
+        canvasContext = canvas.getContext('2d');
+
+        document.addEventListener("mousedown",
+            function (evt) {
+                splashScreen = false;
+            });
+        document.addEventListener("keydown", keyPush);
+        setInterval(function () {
+            draw();
+        }, 1000 / 12);
+
+    }
+
+    function checkBounds() {
+        for (var i = 0; i < body.length; i++) {
+            if (snek.x == body[i].x && snek.y == body[i].y) { //check head-body collisions
+                console.log("ate tail");
+                collisionBool = true;
+            }
+        }
+
+        if (snek.x == apple.x && snek.y == apple.y) { //check head-apple collisions AKA eats apple
+            snek.tail++;
+            console.log("length:", snek.tail);
+            eatBool = true;
+            apple.x = (Math.round(Math.random() * 41)) * 10;
+            apple.y = (Math.round(Math.random() * 41)) * 10;
+        }
+        if (snek.x < 0) { //bounce off walls
+            dx = 10; dy = 0;
+        }
+        if (snek.y < 0) {
+            dx = 0; dy = 10;
+        }
+        if (snek.x > 410) {
+            dx = -10; dy = 0;
+        }
+        if (snek.y > 410) {
+            dx = 0; dy = -10;
+        }
+    }
+
+    function draw() {
+        field();
+
+        if (splashScreen) {
+            drawMenu();
+            return;
+        }
+
+        checkBounds();
+
+        body.push({ x: snek.x, y: snek.y }); //assign body coordinates
+        while (body.length > snek.tail) {
+            body.shift();                //remove last body coord
+        }
+        snek.x += dx;                    //move head coord
+        snek.y += dy;
+
+        drawRect(apple.x, apple.y, 10, 10, 'red'); //draw apple
+
+        drawRect(snek.x, snek.y, 10, 10, 'green'); //draw snek head
+
+        for (var i = 0; i < body.length; i++) {       //draw snek body
+            drawRect(body[i].x, body[i].y, 10, 10, 'green');
+        }
+
+        if (collisionBool) {                      //draw collision text
+            canvasContext.fillStyle = 'white';
+            canvasContext.font = "24px courier-new";
+            canvasContext.fillText("OW!", snek.x + 15, snek.y - 10);
+            collisionTimer++;
+            if (collisionTimer >= 3) {
+                collisionTimer = 0;
+                collisionBool = false;
+            }
+        }
+        if (eatBool) {                            //draw eat text
+            canvasContext.fillStyle = 'white';
+            canvasContext.font = "24px courier-new";
+            canvasContext.fillText("YUM!", snek.x - 50, snek.y - 10);
+            eatTimer++;
+            if (eatTimer >= 3) {
+                eatTimer = 0;
+                eatBool = false;
+            }
+        }
+    }
+
+    function field() {
+        drawRect(0, 0, canvas.width, canvas.height, 'black'); //draws background
+
+        canvasContext.fillStyle = 'white';
+        canvasContext.font = "12px courier-new";
+        canvasContext.fillText("<snek>", 10, 12);
+        canvasContext.fillText("</snek>", canvas.width - 50, canvas.width - 5);
+    }
+
+    function drawMenu() {
+        canvasContext.font = "24px courier-new";
+        canvasContext.fillText("Use the arrow keys to move.", canvas.width / 15, canvas.height / 2 - 50);
+        canvasContext.fillText("Eat the apples and don't bite your tail.", canvas.width / 10, canvas.height / 2);
+        canvasContext.fillText("Click anywhere to play.", canvas.width / 5, canvas.height / 2 + 50);
+    }
+
+    function drawRect(x, y, w, h, color) {
+        canvasContext.fillStyle = color;
+        canvasContext.fillRect(x, y, w, h);
+    }
+
+    function keyPush(evt) {
+        switch (evt.keyCode) {
+            case 37:
+                console.log("left");
+                dx = -10; dy = 0;
+                break;
+            case 38:
+                console.log("up");
+                dx = 0; dy = -10;
+                break;
+            case 39:
+                console.log("right");
+                dx = 10; dy = 0;
+                break;
+            case 40:
+                console.log("down");
+                dx = 0; dy = 10;
+                break;
+        }
+    }
+
+</script>
+
+</html>
+
+{% endblock %}

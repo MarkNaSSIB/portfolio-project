@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+
+{% extends "master.html" %}
+
+{% block title %}Mark's Resume{% endblock %}
+
+{% load static %}
+
+{% block content %}
+<a href = "{% static 'AboutContact/Resume.pdf' %}">This Resume</a>
+{% endblock %}

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+{% extends "master.html" %}
+
+{% block title %}About Me{% endblock %}
+
+{% load static %}
+
+{% block content %}
+<div class="row my-5 d-flex justify-content-around">
+
+    <!--left stacks -->
+    <div class="col-lg-2 mb-5 m-3 d-flex justify-content-around">
+
+        <!-- tech stack card -->
+        <div class="card about-card mb-3" style="width:247px; height:647px;">
+            <div class="card-header">
+                <h4 class="text-center">Tech Stack</h4>
+            </div>
+            <div class="card-body ms-3">
+                <ul>
+                    <li>Python</li>
+                    <li>Django</li>
+                    <li>Git and Github</li>
+                    <li>HTML, CSS, JavaScript</li>
+                    <li>C++</li>
+                    <li>Java</li>
+                    <li>Ruby and Rails</li>
+                    <li>Bootstrap 5</li>
+                    <li>Node.JS</li>
+                    <li>MAVEN</li>
+                    <li>Postman</li>
+                    <li>JUnit</li>
+                    <li>Springboot</li>
+                    <li>Typescript</li>
+                    <li>Active Directory</li>
+                    <li>Azure AD [MS Entra ID]</li>
+                    <li>JIRA</li>
+                    <li>SQL and Database Design</li>
+                    <li>Visual Basic</li>
+                    <li>Docker</li>
+                    <li>AGILE</li>
+                    <li>Machine Code</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- right stacks -->
+    <div class="col-lg-2 d-flex align-items-center justify-content-start flex-column">
+
+        <!-- education card -->
+        <div class="card about-card mb-2" style="width:400px;">
+            <div class="card-header">
+                <h4 class="text-center">Education</h4>
+            </div>
+            <div class="card-body ms-3">
+                <ul>
+                    <li>
+                        <h4>The College of New Jersey 2017-2021</h4>
+                    </li>
+                    <ul>
+                        <li>Bachelor of Science - Computer Science</li>
+                        <li>Overall GPA: 3.3</li>
+                        <li>Alpha Chi Rho Fraternity</li>
+                        <ul>
+                            <li>Active Member: 2018 - 2021</li>
+                            <li>Excecutive Board Member: 2019 - 2021</li>
+                        </ul>
+                    </ul>
+                </ul>
+            </div>
+        </div>
+
+        <!-- experience stack card -->
+        <div class="card about-card mb-5" style="width:400px;">
+            <div class="card-header">
+                <h4 class="text-center">Experience</h4>
+            </div>
+            <div class="card-body ms-3">
+                <ul>
+                    <li>
+                        <h4>Mphasis - Associate Software Engineer</h4>
+                    </li>
+                    <ul>
+                        <li>07/2022 - 01/2023</li>
+                        <li>Developed Full Stack Applications</li>
+                        <li>Worked with New Technologies</li>
+                        <li>Learned greatly about the Finance Sector</li>
+                    </ul>
+                    <li>
+                        <h4>Inspira Health Network - IS Intern</h4>
+                    </li>
+                    <ul>
+                        <li>05/2019 - 08/2019</li>
+                        <li>Upgraded and Installed hundreds of workstations</li>
+                        <li>Assisted hospital personnel with critical technical difficulties.</li>
+                        <li>Thoroughly utilized ticket system.</li>
+                    </ul>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- about section -->
+    <div class="col-lg-5 m-3 d-flex justify-content-around align-items-center flex-column">
+        <!-- about text -->
+        <div>
+            <h2 class="text-center text-white">About Me</h2>
+            <p class="text-justify">
+                Hi! I'm Mark Boutros, a passionate and dedicated software engineer on a perpetual quest for innovation.
+                With a foundation in Computer Science from The College of New Jersey, I've cultivated expertise in a
+                diverse tech stack, including Python, Django, Git, HTML, CSS, JavaScript, and more. My journey has led
+                me through impactful roles, like contributing as an Associate Software Engineer at Mphasis, where I
+                honed my full-stack development skills. My commitment to continuous learning and adaptability fuels my
+                drive, making each project an opportunity to push boundaries and create meaningful solutions. If you
+                have any ideas or projects in mind, I'd love to hear about them!
+            </p>
+
+        </div>
+
+        <!-- resume card -->
+        <div class="my-5">
+            <div class="card" style="width:400px">
+                <a href="/about/resume" class="btn btn-dark">See My CV</a>
+                <img class="card-img-bottom img-fluid" src="{% static 'AboutContact/resume.jpg' %}"
+                    alt="A picture of my resume">
+            </div>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

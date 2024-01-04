@@ -1,0 +1,209 @@
+<head>
+    <!--
+    Pong Game by mark boutros
+    6/16/18
+    -->
+</head>
+
+{% extends "master.html" %}
+
+{% block title %}Mark's Projects{% endblock %}
+
+{% block content %}
+
+<html>
+
+<div class="d-flex justify-content-center">
+    <canvas id="gamecanvas" width="840" height="840"></canvas>
+</div>
+
+<script>
+    var canvas;
+    var canvasContext;
+
+    var gamespeed = 5; //tuning variable
+    var p1y = p2y = 0; //paddle positions
+    var bx = by = 0; //ball coordinates
+    var dx = gamespeed;
+    var dy = (Math.random() * 2 * gamespeed - gamespeed);
+    var paddleHeight;
+    var p1s = p2s = 0;
+    const WIN_CONDITION = 5;
+
+    var winScreen = true;
+
+    function calcPos(evt) {
+        var rect = canvas.getBoundingClientRect();
+        var root = document.documentElement;
+        var mouseX = evt.clientX - rect.left - root.scrollLeft;
+        var mouseY = evt.clientY - rect.top - root.scrollTop;
+        return {
+            x: mouseX,
+            y: mouseY,
+        }
+    }
+
+    function clickyClick(evt) {
+        if (winScreen && p1s + p2s > 0) {
+            p1s = p2s = 0;
+            dy = (Math.random() * 2 * gamespeed - gamespeed);
+            winScreen = false;
+        }
+    }
+
+    window.onload = function () {
+        canvas = document.getElementById('gamecanvas');
+        canvasContext = canvas.getContext('2d');
+        paddleHeight = canvas.height / 5;
+        by = bx = p1y = p2y = canvas.height / 2;
+        setInterval(function () {
+            move();
+            draw();
+        }, 1000 / 60);
+
+        canvas.addEventListener('mousedown', clickyClick);
+
+        canvas.addEventListener('mousemove',
+            function (evt) {
+                var mousePos = calcPos(evt);
+                p2y = mousePos.y - (paddleHeight / 2);
+            });
+
+    }
+
+    function menuScreen() {
+        canvas.addEventListener('mousedown',
+            function (evt) {
+                var mousePo = calcPos(evt);
+                if (mousePo.x > (7 / 10) * canvas.width && mousePo.x < canvas.height * (33 / 40)) {
+                    if (mousePo.y > (7 / 10) * canvas.width && mousePo.y < canvas.width * (3 / 4)) {
+                        winScreen = false;
+                        return;
+                    } else {
+                        menuScreen();
+                    }
+                } else {
+                    menuScreen();
+                }
+            });
+
+    }
+
+    function reset() {
+        if (p1s >= WIN_CONDITION || p2s >= WIN_CONDITION) {
+            winScreen = true;
+        }
+
+        bx = by = canvas.width / 2;
+    }
+    function AI() {
+        if (p1y + (paddleHeight / 2) < by - canvas.height / 15) {
+            p1y += gamespeed;
+        } else if (p1y + (paddleHeight / 2) > by + canvas.height / 15) {
+            p1y -= gamespeed;
+        }
+    }
+
+    function move() {
+        if (winScreen) return;
+        AI();
+        bx += dx;
+        by += dy;
+
+        if (by < 6) dy *= -1;
+        if (by > canvas.height - 6) dy *= -1;
+
+        if (bx >= canvas.width - 12) {
+            if (by > p2y && by < p2y + paddleHeight) { //hits right paddle
+                dx *= -1;
+                dy = gamespeed * (by - (p2y + paddleHeight / 2)) / 40;
+            }
+            else {
+                p1s++;
+                reset();
+            }
+        }
+        if (bx < 12) {
+            if (by > p1y && by < p1y + paddleHeight) { //hits left paddle
+                dx *= -1;
+
+                dy = gamespeed * (by - (p1y + paddleHeight / 2)) / 40;
+            }
+            else {
+                p2s++;
+                reset();
+            }
+        }
+
+    }
+
+    function netBoi() {
+        for (var i = 0; i < canvas.height; i += 50) {
+            drawRect(canvas.width / 2, i, 2, 25, 'white');
+        }
+    }
+    function draw() {
+        drawRect(0, 0, canvas.width, canvas.height, 'black'); //draws background
+        netBoi();
+
+        if (winScreen) {
+            if (p1s + p2s > 0) {
+                canvasContext.fillStyle = 'white';
+                canvasContext.font = "20px sans-serif";
+                if (p1s > p2s) {
+                    canvasContext.fillText("you lost...", canvas.width / 10 * 6, 90);
+                    canvasContext.fillText("the AI must've been pretty good...", canvas.width / 10 * 6, 110);
+                    canvasContext.fillText("wonder who wrote it...", canvas.width / 10 * 6, 130);
+
+                } else {
+                    canvasContext.fillText("you won!", canvas.width / 10 * 6, 90);
+                    canvasContext.fillText("nice job!", canvas.width / 10 * 6, 110);
+                    canvasContext.fillText("you should go pro...", canvas.width / 10 * 6, 130);
+                }
+                canvasContext.fillText("click anywhere to play again", canvas.width / 10 * 6, canvas.height - 150);
+                return;
+            } else {
+
+                canvasContext.font = "bold 60px sans-serif";
+                canvasContext.fillStyle = 'green';
+                canvasContext.fillText("PONG", canvas.width / 10, canvas.height * 2 / 16);
+                canvasContext.fillStyle = 'white';
+                canvasContext.font = "20px sans-serif";
+                canvasContext.fillText("by: mark boutros", 7 * (canvas.width / 10), canvas.height / 5);
+                canvasContext.fillText("you control the right paddle", canvas.width / 10, canvas.height / 2);
+                canvasContext.fillText("first player to 5 wins", canvas.width / 10, canvas.height / 2 + 22);
+                drawRect(7 * canvas.width / 10, canvas.height * 7 / 10, canvas.width / 8, canvas.height / 20, 'green');
+                canvasContext.font = "30px monospace";
+                canvasContext.fillStyle = 'white';
+                canvasContext.fillText("PLAY", 29 * (canvas.width / 40), canvas.height * 59 / 80);
+                menuScreen();
+            }
+        }
+
+
+        drawRect(2, p1y, 10, paddleHeight, 'white'); //draws left paddle
+        drawRect(canvas.width - 12, p2y, 10, paddleHeight, 'white'); //draws right paddle
+
+        drawBall(bx, by, 6, 'white'); //draws ball
+
+        canvasContext.fillStyle = 'white';
+        canvasContext.font = "80px monospace";
+        canvasContext.fillText(p1s, 2 / 5 * canvas.width, 2 / 5 * canvas.height);
+        canvasContext.fillText(p2s, canvas.width * 3 / 5 - canvas.width / 18, 2 / 5 * canvas.height);
+
+    }
+    function drawBall(x, y, r, color) {
+        canvasContext.fillStyle = color;
+        canvasContext.beginPath();
+        canvasContext.arc(x, y, r, 0, Math.PI * 2, true);
+        canvasContext.fill();
+    }
+    function drawRect(x, y, w, h, color) {
+        canvasContext.fillStyle = color;
+        canvasContext.fillRect(x, y, w, h);
+    }
+</script>
+
+</html>
+
+{% endblock %}
