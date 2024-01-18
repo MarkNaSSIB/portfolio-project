@@ -8,60 +8,112 @@
 
 {% block content %}
 
-<div>
-    <h2 class="my-3 text-white text-center"> My Projects </h2>
-</div>
+
 
 <div class="row">
+
+    <div>
+        <!-- center text with cards -->
+        <h2 class="my-3 text-white text-center"> My Projects and Inspirational Software </h2>
+    </div>
 
     <!-- link cards -->
     <div class="col-lg-6 justify-content-around d-flex">
 
-        <!-- link cards section 1-->
-        <div class="d-flex justify-content-around flex-column">
 
-            <!-- LinkedIn Card -->
-            <div class="card" style="width:153px">
-                <img class="card-img-top" src="{% static 'AboutContact/pongICO.jpg' %}" alt="pong game icon">
-                <div class="card-body d-flex flex-column align-items-center">
-                    <a href="/pong/" class="btn btn-dark">pong</a>
+            <!-- link cards section 1-->
+            <div class="d-flex justify-content-around flex-column">
+
+                <!-- Pong Card -->
+                <div class="card" style="width:180px">
+                    <img class="card-img-top" src="{% static 'AboutContact/pongICO.jpg' %}" alt="pong game icon">
+                    <div class="card-body d-flex flex-column align-items-center">
+                        <a href="/pong/" class="btn btn-dark">pong</a>
+                    </div>
                 </div>
+
+                <!-- Snake card -->
+                <div class="card my-5" style="width:180px">
+                    <div class="card-body d-flex flex-column align-items-center">
+                        <a href="/snek/" class="btn btn-dark">snek</a>
+                    </div>
+                    <img class="card-img-bottom" src="{% static 'AboutContact/snekICO.jpg' %}" alt="snek game icon">
+                </div>
+
             </div>
 
-            <!-- Github card -->
-            <div class="card my-5" style="width:153px">
-                <div class="card-body d-flex flex-column align-items-center">
-                    <a href="/snek/" class="btn btn-dark">snek</a>
-                </div>
-                <img class="card-img-bottom" src="{% static 'AboutContact/snekICO.jpg' %}" alt="snek game icon">
-            </div>
+            <!-- link cards section 2 -->
+            <div class="d-flex justify-content-around flex-column">
 
+                <!-- Solar card -->
+                <div class="card" style="width:180px">
+                    <img class="card-img-top" src="{% static 'AboutContact/solarICO.jpg' %}" alt="solar sim icon">
+                    <div class="card-body d-flex flex-column align-items-center">
+                        <a href="/solar/" class="btn btn-dark">solar</a>
+                    </div>
+                </div>
+
+                <!-- Cat Game Card -->
+                <div class="card my-5" style="width:180px">
+                    <div class="card-body d-flex flex-column align-items-center">
+                        <a href="https://orteil.dashnet.org/igm/?g=https://raw.githubusercontent.com/MarkNaSSIB/cat-click-cook/main/catClicker.txt"
+                            class="btn btn-dark">Cat Game</a>
+                    </div>
+                    <img class="card-img-bottom img-fluid" src="{% static 'AboutContact/catICO.jpg' %}"
+                        alt="placeholder img">
+
+                </div>
+            </div>
         </div>
 
-        <!-- link cards section 2 -->
-        <div class="d-flex justify-content-around flex-column">
 
-            <!-- LeetCode card -->
-            <div class="card" style="width:153px">
-                <img class="card-img-top" src="{% static 'AboutContact/solarICO.jpg' %}" alt="solar sim icon">
-                <div class="card-body d-flex flex-column align-items-center">
-                    <a href="/solar/" class="btn btn-dark">solar</a>
+    <!-- inpirational software cards -->
+    <div class="col-lg-6 justify-content-around d-flex">
+
+            <!-- link cards section 1-->
+            <div class="d-flex justify-content-around flex-column">
+
+                <!-- Keita Yamada Card -->
+                <div class="card" style="width:320px">
+                    <img class="card-img-top" src="{% static 'AboutContact/KYP.png' %}" alt="Keita Yamada Portfolio icon">
+                    <div class="card-body d-flex flex-column align-items-center">
+                        <a href="https://p5aholic.me/" class="btn btn-dark">Keita Yamada</a>
+                    </div>
                 </div>
+
+                <!-- Cookie Clicker card -->
+                <div class="card my-5" style="width:320px">
+                    <div class="card-body d-flex flex-column align-items-center">
+                        <a href="https://orteil.dashnet.org/cookieclicker/" class="btn btn-dark">Cookie Clicker</a>
+                    </div>
+                    <img class="card-img-bottom" src="{% static 'AboutContact/CC.png' %}" alt="Cookie CLicker icon">
+                </div>
+
             </div>
 
-            <!-- -->
-            <div class="card my-5" style="width:162px">
-                <div class="card-body d-flex flex-column align-items-center">
-                    <a href="https://orteil.dashnet.org/igm/?g=https://raw.githubusercontent.com/MarkNaSSIB/cat-click-cook/main/catClicker.txt" class="btn btn-dark">Cat Game</a>
-                </div>
-                <img class="card-img-bottom img-fluid" src="{% static 'AboutContact/catICO.jpg' %}"
-                    alt="placeholder img">
+            <!-- link cards section 2 -->
+            <div class="d-flex justify-content-around flex-column">
 
+                <!-- Ian Dunkerley card -->
+                <div class="card" style="width:320px">
+                    <img class="card-img-top" src="{% static 'AboutContact/IDP.png' %}" alt="Ian Dunkerley portfolio icon">
+                    <div class="card-body d-flex flex-column align-items-center">
+                        <a href="https://dunks1980.com/" class="btn btn-dark">Ian Dunkerley</a>
+                    </div>
+                </div>
+
+                <!-- Youtube card-->
+                <div class="card my-5" style="width:320px">
+                    <div class="card-body d-flex flex-column align-items-center">
+                        <a href="https://youtube.com/"
+                            class="btn btn-dark">YouTube</a>
+                    </div>
+                    <img class="card-img-bottom img-fluid" src="{% static 'AboutContact/YT.png' %}"
+                        alt="Youtube img">
+
+                </div>
             </div>
         </div>
-    </div>
-
-    
 
 </div>
 
