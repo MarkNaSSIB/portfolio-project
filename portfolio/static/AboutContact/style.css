@@ -70,6 +70,7 @@ a:hover {
     background-color: #cecece;
     border-radius: 42px; /* Adjust the value as needed */
     overflow: hidden;
+    border-color:#2b2f32;
 }
 
 .about-card {
