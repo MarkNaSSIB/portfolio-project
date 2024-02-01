@@ -11,6 +11,8 @@ urlpatterns = [
     path("contact/", views.contact, name="contact"),
     path("resume/", views.resume, name="resume"),
     path("resumeDirect/", views.resumeDirect, name="resumeDirect"),
+    path("researchPaper/", views.researchPaper, name="researchPaper"),
+    path("researchPaperDirect/", views.researchPaperDirect, name="researchPaperDirect"),
 
     path("pong/", views.pong, name="pong"),
     path("snek/", views.snek, name="snek"),

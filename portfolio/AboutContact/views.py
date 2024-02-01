@@ -27,6 +27,12 @@ def resume(request):
 def resumeDirect(request):
     return FileResponse(open('static/AboutContact/Resume.pdf', 'rb'))
 
+def researchPaper(request):
+    return researchPaperDirect(request)
+
+def researchPaperDirect(request):
+    return FileResponse(open('static/AboutContact/ResearchPaper.pdf', 'rb'))
+
 def pong(request):
     return render(request, 'pong.html')
 
