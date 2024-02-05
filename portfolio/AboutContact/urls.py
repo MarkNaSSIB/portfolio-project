@@ -13,6 +13,8 @@ urlpatterns = [
     path("resumeDirect/", views.resumeDirect, name="resumeDirect"),
     path("researchPaper/", views.researchPaper, name="researchPaper"),
     path("researchPaperDirect/", views.researchPaperDirect, name="researchPaperDirect"),
+    path("webScraper/", views.webScraper, name="webScraper"),
+    path("webScraperDirect/", views.webScraperDirect, name="webScraperDirect"),
 
     path("pong/", views.pong, name="pong"),
     path("snek/", views.snek, name="snek"),

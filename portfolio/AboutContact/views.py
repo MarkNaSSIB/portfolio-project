@@ -33,6 +33,12 @@ def researchPaper(request):
 def researchPaperDirect(request):
     return FileResponse(open('static/AboutContact/ResearchPaper.pdf', 'rb'))
 
+def webScraper(request):
+    return webScraperDirect(request)
+
+def webScraperDirect(request):
+    return FileResponse(open('static/AboutContact/WebScrapeReport.pdf', 'rb'))
+
 def pong(request):
     return render(request, 'pong.html')
 
