@@ -1,0 +1,85 @@
+/* Reset some default browser styles */
+html, body, h1, h2, h3, p, ul, li {
+    margin: 0;
+    padding: 0;
+}
+
+/* Apply a box-sizing border-box model to all elements */
+*, *:before, *:after {
+    box-sizing: border-box;
+}
+
+/* HTML styles */
+html {
+    font-size: 14px;
+    font-family: 'Roboto', 'Arial', sans-serif;
+}
+
+/* Body styles */
+body {
+    background-color: #0f0f0f;
+    color: #fff;
+    font-family: 'Roboto', Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+/* Header styles */
+header {
+    background-color: #0f0f0f;
+    color: #fff;
+    padding: 10px 20px;
+}
+
+/* Main content container */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Heading styles */
+h1, h2, h3 {
+    color: #0f0f0f;
+}
+
+/* Link styles */
+a {
+    color: #8c00ff;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Button styles */
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Rounded corners for cards */
+.card{
+    background-color: #cecece;
+    border-radius: 42px; /* Adjust the value as needed */
+    overflow: hidden;
+    border-color:#2b2f32;
+}
+
+.about-card {
+    color:#0f0f0f;
+    border-radius: 26px; /* Adjust the value as needed */
+    overflow: hidden;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    /* Add responsive styles here */
+}
